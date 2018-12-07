@@ -1,0 +1,4 @@
+#Tue Dec 04 00:09:01 GMT 2018
+base.0=C\:\\Users\\Ger\\PycharmProjects\\Heatmap\\platforms\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex

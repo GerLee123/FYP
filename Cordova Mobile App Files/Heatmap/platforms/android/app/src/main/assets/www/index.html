@@ -1,0 +1,71 @@
+<html>
+<head>
+  <title>A Leaflet map!</title>
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+   integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+   crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+   integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+   crossorigin=""></script>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+  <script src="js/leaflet.heat.js"></script>
+    <script src="js/index.js"></script>
+
+  <style>
+    #map{ height: 80% }
+  </style>
+</head>
+<body onload="onLoad();">
+
+    <script type="text/javascript">
+            document.addEventListener("deviceready",onDeviceReady,false);
+            function onDeviceReady(){
+                window.plugins.sim.getSimInfo(successCallback, errorCallback);
+                    document.getElementById("networkInfo").addEventListener("click", networkInfo);
+                    document.addEventListener("offline", onOffline, false);
+                    document.addEventListener("online", onOnline, false);
+            }
+            function successCallback(result) {
+                document.getElementById("mcc").innerHTML=JSON.stringify(result.mcc);
+                document.getElementById("mnc").innerHTML=JSON.stringify(result.mnc);
+                document.getElementById("carrierName").innerHTML=JSON.stringify(result.carrierName);
+            }
+            function errorCallback(error) {
+                document.getElementById("simInfo").innerHTML=JSON.stringify(error);
+            }
+        </script>
+
+  <div id="map"></div>
+
+  <script>
+  // initialize the map
+  var map = L.map('map').setView([53.1424, -7.6921], 3);
+
+  // load a tile layer
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      maxZoom: 18,
+      minZoom: 3
+    }).addTo(map);
+
+  map.setZoom(6.25);
+  $.getJSON("js/rodents.geojson",function(data){
+    var locations = data.features.map(function(rat) {
+      var location = rat.geometry.coordinates.reverse();
+      location.push(0.5);
+      return location; // e.g. [50.5, 30.5, 0.2], // lat, lng, intensity
+    });
+    var heat = L.heatLayer(locations, { radius: 15 });
+    map.addLayer(heat);
+  });
+
+  </script>
+
+    Carrier Name : <p id="carrierName"></p>
+    <p id="networkInfos"></p>
+    Signal Type : <p id="signal"></p>
+    MCC : <p id="mcc"></p>
+    MNC : <p id="mnc"></p>
+</body>
+</html>

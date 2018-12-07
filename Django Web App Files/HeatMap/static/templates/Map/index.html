@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<!-- Load Generic Resource Files -->
+		<title>Carrier Coverage Heat Map</title>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ==" crossorigin=""/>
+		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js" integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg==" crossorigin=""></script>
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		
+		
+		<!-- Load Static Files From Django -->
+		{% load static %}
+		<script src="{% static 'custom_code/js/custom_js.js' %}"></script>
+		<script src="{% static 'custom_code/js/leaflet.heat.js' %}"></script>
+		
+		<!--Custom CSS Style For Map -->
+		<style>
+			#map_marker{ height: 80% }
+		</style>
+
+	</head>
+
+	<body onload="Get_Coordinates()">
+		<div id="map_marker"></div>
+
+		Carrier Name : <p id="carrierName"></p>
+		<p id="networkInfos"></p>
+		Signal Type : <p id="signal"></p>
+		MCC : <p id="mcc"></p>
+		MNC : <p id="mnc"></p>
+	</body>
+</html>
